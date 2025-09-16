@@ -9,7 +9,12 @@
     // Continue
     const continueBtn = Array.from(
       document.querySelectorAll('a.monaco-button[role="button"], button.monaco-button')
-    ).find(el => /continue/i.test(el.textContent?.trim()));
+    ).find(el => {
+      const hasContinueText = /continue/i.test(el.textContent?.trim());
+      const isRebaseButton = /rebase/i.test(el.getAttribute('aria-label') || '');
+      return hasContinueText && !isRebaseButton;
+    });
+    
     if (continueBtn) {
       continueBtn.click();
       lastClick = now;
